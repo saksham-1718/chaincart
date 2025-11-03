@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Register - ChainCart</title>
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+  <link rel="stylesheet" href="{% static 'login.css' %}">
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <div class="header-content">
+        <a href="{% url 'home' %}" class="logo">ChainCart</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="login-main">
+    <section class="auth-card">
+      <h1>Create an Account</h1>
+      <p class="muted">Join ChainCart to explore digital art and auctions.</p>
+
+      {% if messages %}
+        <ul class="messages">
+          {% for message in messages %}
+            <li class="{{ message.tags }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+
+      <form method="POST" class="auth-form">
+        {% csrf_token %}
+        <label for="name">Full Name</label>
+        <input id="name" name="name" type="text" placeholder="Your name" required>
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" placeholder="you@example.com" required>
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" placeholder="Choose a password" required>
+        <label for="confirm_password">Confirm Password</label>
+        <input id="confirm_password" name="confirm_password" type="password" placeholder="Confirm password" required>
+        <button class="btn primary" type="submit">Create Account</button>
+      </form>
+
+      <p class="muted small">Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+    </section>
+  </main>
+
+  <footer class="site-footer small muted">
+    &copy; 2025 ChainCart 
+  </footer>
+</body>
+</html>

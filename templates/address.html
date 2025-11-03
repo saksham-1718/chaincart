@@ -1,0 +1,76 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shipping Address - ChainCart</title>
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+  <header>
+    <div class="container header-content">
+      <a href="{% url 'home' %}" class="logo">ChainCart</a>
+    </div>
+  </header>
+
+  <div class="container checkout two-column">
+    <aside class="checkout-steps">
+      <ol>
+        <li class="step-item">
+          <a href="{% url 'order-summary' %}">
+            <span class="step-num">1</span>
+            <div class="step-title">Order Summary</div>
+          </a>
+        </li>
+        <li class="step-item">
+          <a href="{% url 'address' %}">
+            <span class="step-num">2</span>
+            <div class="step-title">Shipping Address</div>
+          </a>
+        </li>
+        <li class="step-item">
+          <a href="{% url 'review' %}">
+            <span class="step-num">3</span>
+            <div class="step-title">Review & Place</div>
+          </a>
+        </li>
+        <li class="step-item">
+          <a href="{% url 'payment-mode' %}">
+            <span class="step-num">4</span>
+            <div class="step-title">Payment</div>
+          </a>
+        </li>
+        <li class="step-item">
+          <a href="{% url 'confirmation' %}">
+            <span class="step-num">5</span>
+            <div class="step-title">Confirmation</div>
+          </a>
+        </li>
+       </ol>
+    </aside>
+
+    <main class="checkout-main">
+      <h2>Shipping Address</h2>
+      <form id="address-form" class="address-form">
+        <label class="full">Full name<input name="name" required></label>
+        <label>Phone<input name="phone" required inputmode="tel"></label>
+        <label class="full">Address Line 1<input name="line1" required></label>
+        <label>Address Line 2<input name="line2"></label>
+        <label>City<input name="city" required></label>
+        <label>State/Region<input name="state" required></label>
+        <label>Pincode/ZIP<input name="zip" required inputmode="numeric"></label>
+
+        <div class="checkout-actions">
+          <a href="{% url 'order-summary' %}" class="btn secondary">Back</a>
+          <button type="submit" class="btn primary">Continue to Review</button>
+        </div>
+      </form>
+    </main>
+  </div>
+
+  <script src="{% static 'checkout.js' %}"></script>
+  <script src="{% static 'script.js' %}"></script>
+</body>
+</html>

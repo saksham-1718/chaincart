@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Login - ChainCart</title>
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+  <link rel="stylesheet" href="{% static 'login.css' %}">
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <div class="header-content">
+        <a href="{% url 'home' %}" class="logo">ChainCart</a>
+        <nav>
+          <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'digital-art' %}">Digital Art</a></li>
+            <li><a href="{% url 'sculpture' %}">Sculpture</a></li>
+            <li><a href="{% url 'photography' %}">Photography</a></li>
+            <li><a href="{% url 'auction' %}">Auction</a></li>
+            <li><a href="{% url 'cart' %}"><i class="fa-solid fa-cart-shopping"></i></a></li>
+            <li><a href="{% url 'wallet' %}"><i class="fa-solid fa-wallet"></i></a></li>
+            <li><a href="{% url 'account' %}"><i class="fa-regular fa-circle-user"></i></a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="login-main">
+    <section class="auth-card">
+      <h1>Welcome to ChainCart</h1>
+      <p class="muted">Sign in to your account</p>
+
+      {% if messages %}
+        <ul class="messages">
+          {% for message in messages %}
+            <li class="{{ message.tags }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+
+      <form method="POST" class="auth-form">
+        {% csrf_token %}
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" placeholder="you@example.com" required>
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" placeholder="Password" required>
+        <button class="btn primary" type="submit">Login</button>
+      </form>
+
+      <p class="muted small">Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
+    </section>
+  </main>
+
+  <footer class="site-footer small muted">
+    &copy; 2025 ChainCart
+  </footer>
+</body>
+</html>

@@ -1,0 +1,19 @@
+.login-main{display:flex;align-items:center;justify-content:center;padding:48px 16px;min-height:70vh}
+.auth-card{width:100%;max-width:420px;background:var(--light);padding:28px;border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,0.06);}
+.auth-card h1{margin:0 0 6px;font-size:20px;color:var(--dark)}
+.muted{color:var(--gray)}
+.tabs{display:flex;gap:8px;margin:12px 0 18px}
+.tab{flex:1;padding:8px 10px;border-radius:8px;border:1px solid var(--light-gray);background:transparent;cursor:pointer;color:var(--dark)}
+.tab.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.auth-form{display:flex;flex-direction:column;gap:10px}
+.auth-form.hidden{display:none}
+.auth-form label{font-size:13px;color:var(--dark)}
+.auth-form input{padding:10px;border-radius:6px;border:1px solid var(--light-gray);background:#fff}
+.btn.primary{background:var(--primary);color:#fff;border:none;padding:10px 14px;border-radius:6px}
+.btn.primary:hover{background:var(--primary-dark)}
+.form-message{min-height:20px;color:#b34141;font-size:13px}
+.site-header{display:flex;justify-content:space-between;align-items:center;padding:12px 18px;border-bottom:1px solid #eee;background:#fff}
+.site-header .logo a{font-weight:700;color:var(--primary);text-decoration:none}
+.site-nav a{margin-left:12px;color:var(--dark);text-decoration:none}
+.site-footer{padding:18px;text-align:center;border-top:1px solid var(--light-gray);color:var(--gray)}
+@media(max-width:520px){.auth-card{margin:0 12px;padding:18px}}

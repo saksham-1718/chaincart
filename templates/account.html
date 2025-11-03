@@ -1,0 +1,105 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account - ChainCart</title>
+
+    <link rel="stylesheet" href="{% static 'account.css' %}">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+<header>
+    <div class="container">
+        <div class="header-content">
+            <a href="{% url 'home' %}" class="logo">ChainCart</a>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'digital-art' %}">Digital Art</a></li>
+                    <li><a href="{% url 'sculpture' %}">Sculpture</a></li>
+                    <li><a href="{% url 'photography' %}">Photography</a></li>
+                    <li><a href="{% url 'auction' %}">Auction</a></li>
+                    <li><a href="{% url 'cart' %}"><i class="fa-solid fa-cart-shopping"></i></a></li>
+                    <li><a href="{% url 'wallet' %}" class="active"><i class="fa-solid fa-wallet"></i></a></li>
+                    <li><a href="{% url 'account' %}"><i class="fa-regular fa-circle-user"></i></a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</header>
+
+<div class="container account-page">
+    <aside class="account-sidebar">
+        <div class="profile-card">
+           <div class="avatar-wrap">
+    <a id="avatar-link" href="{{ user_avatar }}" target="_blank" rel="noopener">
+        <img src="{{ user_avatar }}" alt="User avatar" class="avatar" id="avatar-img">
+    </a>
+
+    <!-- ✅ Real form to submit avatar upload -->
+    <form method="POST" enctype="multipart/form-data" style="display:inline;">
+        {% csrf_token %}
+        <label class="avatar-upload">
+            <input type="file" name="avatar" id="avatar-file" accept="image/*" onchange="this.form.submit();" />
+            <i class="fa-solid fa-camera"></i>
+        </label>
+    </form>
+</div>
+
+
+            {% if user.is_authenticated %}
+               <h3 id="user-name">"{{ user_name }}"</h3>
+                <p id="user-email">{{ user_email }}</p>
+                <p id="profile-member">Member since: {{ member_since }}</p>
+                <div class="profile-actions">
+                    <form method="POST" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn secondary">Sign Out</button>
+                    </form>
+                </div>
+            {% else %}
+                <h3 id="user-name">Guest User</h3>
+                <p id="user-email">Not signed in</p>
+                <div class="profile-actions">
+                    <button onclick="window.location.href='{% url 'login' %}'" class="btn">Sign In</button>
+                    <button onclick="window.location.href='{% url 'register' %}'" class="btn secondary">Sign Up</button>
+                </div>
+            {% endif %}
+        </div>
+    </aside>
+
+    <main class="account-main">
+        <section class="profile-section">
+            <h2>My Profile</h2>
+            {% if user.is_authenticated %}
+            <form class="profile-grid">
+                <div class="field">
+                    <label>Username</label>
+                    <input type="text" value="{{ user.username }}" readonly />
+                </div>
+                <div class="field">
+                    <label>Full Name</label>
+                    <input type="text" value="{{user.first_name}} {{user.last_name}}" readonly />
+                </div>
+                <div class="field">
+                    <label>Email</label>
+                    <input type="email" value="{{ user.email }}" readonly />
+                </div>
+                <div class="field">
+                    <label>Member since</label>
+                    <div>{{ user.date_joined|date:"F Y" }}</div>
+                </div>
+            </form>
+            {% else %}
+                <p>Please <a href="{% url 'login' %}">sign in</a> to view your profile.</p>
+            {% endif %}
+        </section>
+    </main>
+</div>
+
+<script src="{% static 'account.js' %}"></script>
+</body>
+</html>

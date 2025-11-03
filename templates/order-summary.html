@@ -1,0 +1,103 @@
+{% load static %}
+{% load cart_filters %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Order Summary - ChainCart</title>
+  <link rel="stylesheet" href="{% static 'style.css' %}" />
+</head>
+<body>
+  <header>
+    <div class="container header-content">
+      <a href="{% url 'home' %}" class="logo">ChainCart</a>
+    </div>
+  </header>
+
+  <div class="container checkout two-column">
+    <aside class="checkout-steps">
+      <ol>
+        <li class="step-item">
+          <a href="{% url 'order-summary' %}">
+            <span class="step-num">1</span>
+            <div class="step-title">Order Summary</div>
+          </a>
+        </li>
+        <li class="step-item">
+          <a href="{% url 'address' %}">
+            <span class="step-num">2</span>
+            <div class="step-title">Shipping Address</div>
+          </a>
+        </li>
+        <li class="step-item">
+          <a href="{% url 'review' %}">
+            <span class="step-num">3</span>
+            <div class="step-title">Review & Place</div>
+          </a>
+        </li>
+        <li class="step-item">
+          <a href="{% url 'payment-mode' %}">
+            <span class="step-num">4</span>
+            <div class="step-title">Payment</div>
+          </a>
+        </li>
+        <li class="step-item">
+          <a href="{% url 'confirmation' %}">
+            <span class="step-num">5</span>
+            <div class="step-title">Confirmation</div>
+          </a>
+        </li>
+      </ol>
+    </aside>
+
+    <main class="checkout-main">
+      <h2>Order Summary</h2>
+
+      <div id="summary-list" class="summary-list">
+        {% if cart_items %}
+          <table>
+            <tr>
+              <th>Image</th>
+              <th>Title</th>
+              <th>Artist</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th>Total</th>
+            </tr>
+            {% for item in cart_items %}
+            <tr>
+              <td><img src="{{ item.painting.p_image_url }}" alt="{{ item.painting.p_title }}" width="50"></td>
+              <td>{{ item.painting.p_title }}</td>
+              <td>{{ item.painting.p_artist }}</td>
+              <td>{{ item.painting.p_price }}</td>
+              <td>{{ item.quantity }}</td>
+              <td>{{ item.painting.p_price|multiply:item.quantity }}</td>
+            </tr>
+            {% endfor %}
+          </table>
+        {% else %}
+          <p>Your cart is empty.</p>
+        {% endif %}
+      </div>
+
+      <div class="summary-totals">
+        <div><span>Subtotal</span><span>{{ subtotal }}</span></div>
+        <div><span>Shipping</span><span>{{ shipping }}</span></div>
+        <div class="summary-total"><strong>Total</strong><strong>{{ total }}</strong></div>
+      </div>
+
+      <div class="checkout-actions">
+        <a href="{% url 'cart' %}" class="btn secondary">Back to Cart</a>
+        {% if cart_items %}
+          <a href="{% url 'address' %}" class="btn primary">Proceed to Address</a>
+        {% endif %}
+      </div>
+    </main>
+  </div>
+
+  <script src="{% static 'checkout.js' %}"></script>
+  <script src="{% static 'script.js' %}"></script>
+</body>
+</html>

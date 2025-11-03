@@ -1,0 +1,202 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChainCart - India's Premier Online Art Gallery</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="{% url 'home' %}" class="logo">ChainCart</a>
+                <nav>
+                    <ul>
+                        <li><a href="{% url 'home' %}" class="active">Home</a></li>
+                        <li><a href="{% url 'digital-art' %}">Digital Art</a></li>
+                        <li><a href="{% url 'sculpture' %}">Sculpture</a></li>
+                        <li><a href="{% url 'photography' %}">Photography</a></li>
+                        <li><a href="{% url 'auction' %}">Auction</a></li>
+                        <li><a href="{% url 'cart' %}" title="Cart"><i class="fa-solid fa-cart-shopping"></i></a></li>
+                        <li><a href="{% url 'wallet' %}" title="Wallet"><i class="fa-solid fa-wallet"></i></a></li>
+                        <li><a href="{% url 'account' %}" title="Account"><i class="fa-regular fa-circle-user"></i></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>ChainCart</h1>
+            <p>INSIGHTS INTO THE ART WORLD</p>
+            <a href="#" class="btn">EXPLORE BY CATEGORY</a>
+        </div>
+    </section>
+
+    <!-- New Arrivals Section -->
+   <section id="new-arrivals">
+    <div class="container">
+        <h2>New Arrivals</h2>
+        <div class="artworks-grid">
+            {% for art in artworks %}
+            <div class="artwork-card">
+                <!-- Link wraps the image -->
+                <a href="{% url 'product1' art.id %}">
+                    <div class="artwork-image" 
+                         style="background-image: url('{{ art.p_image_url }}');">
+                    </div>
+                </a>
+                <div class="artwork-details">
+                    <div class="artwork-title">{{ art.p_title }}</div>
+                    <div class="artwork-artist">By {{ art.p_artist }}</div>
+                    <div class="artwork-medium">{{ art.p_desc }}</div>
+                    {% if art.p_dims %}
+                    <div class="artwork-dimensions">{{ art.p_dims }}</div>
+                    {% endif %}
+                    <div class="artwork-price">{{ art.p_price }}</div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+    <!-- Categories Section -->
+    <section id="categories">
+        <div class="container">
+            <h2>Explore by Category</h2>
+            <div class="category-grid">
+                <div class="category-item">Choose by Colour</div>
+                <div class="category-item">Explore by Medium</div>
+                <div class="category-item">Prints for You</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Discount Banner -->
+    <section class="discount-banner">
+        <div class="container">
+            <h2>DISCOUNT ON ORIGINAL ARTWORKS</h2>
+            <p>364 Product Listed</p>
+            <div class="discount-percentages">
+                <div class="percentage">25%</div>
+                <div class="percentage">20%</div>
+                <div class="percentage">15%</div>
+                <div class="percentage">10%</div>
+                <div class="percentage">5%</div>
+            </div>
+            <a href="#" class="btn">View All</a>
+        </div>
+    </section>
+
+    <!-- Themes Section -->
+    <section id="themes">
+        <div class="container">
+            <h2>WHAT ARE YOU LOOKING FOR?</h2>
+            <div class="category-grid">
+                <div class="category-item">Fruits</div>
+                <div class="category-item">Seascape</div>
+                <div class="category-item">Botanical</div>
+                <div class="category-item">Village</div>
+                <div class="category-item">Music</div>
+                <div class="category-item">Buildings</div>
+                <div class="category-item">Figurative</div>
+                <div class="category-item">Objects</div>
+                <div class="category-item">Birds</div>
+                <div class="category-item">People</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Artists Section -->
+    <section class="artists-section">
+        <div class="container">
+            <h2>MEET OUR ARTISTS</h2>
+            <div class="artists-tabs">
+                <div class="tab-btn active">Artist of the Week</div>
+                <div class="tab-btn">Popular Artist</div>
+                <div class="tab-btn">Trending Artist</div>
+                <div class="tab-btn">Most Visited</div>
+                <div class="tab-btn">All Artists</div>
+            </div>
+            <div class="artists-grid">
+                <div class="artist-card">
+                    <div class="artist-avatar">SR</div>
+                    <div class="artist-name">Sekhar Roy</div>
+                    <div class="artist-location">Kolkata, India</div>
+                </div>
+                
+                <div class="artist-card">
+                    <div class="artist-avatar">DB</div>
+                    <div class="artist-name">Deven Ramesh Bhosale</div>
+                    <div class="artist-location">Pune, India</div>
+                </div>
+                
+                <div class="artist-card">
+                    <div class="artist-avatar">SP</div>
+                    <div class="artist-name">Subrata Paul</div>
+                    <div class="artist-location">Barnadepore, India</div>
+                </div>
+                
+                <div class="artist-card">
+                    <div class="artist-avatar">NC</div>
+                    <div class="artist-name">Nitu Chhajer</div>
+                    <div class="artist-location">HOWMAN, India</div>
+                </div>
+                
+                <div class="artist-card">
+                    <div class="artist-avatar">SS</div>
+                    <div class="artist-name">Soyil Saha</div>
+                    <div class="artist-location">Benhampece, India</div>
+                </div>
+                
+                <div class="artist-card">
+                    <div class="artist-avatar">AV</div>
+                    <div class="artist-name">Anil K Vishwakarma</div>
+                    <div class="artist-location">Mehali, India</div>
+                </div>
+            </div>
+            <div class="centered-view-more">
+                <a href="#" class="btn">View More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+     <footer>
+        <div class="container footer-content">
+            <div class="footer-section">
+                <h3>About ChainCart</h3>
+                <p>ChainCart connects collectors and artists. Discover original artworks from emerging and established creators across India.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'auction' %}">Auction</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Support</h3>
+               
+            </div>
+            <div class="footer-section">
+                <h3>Newsletter</h3>
+                <p>Get weekly updates about new arrivals and exclusive offers.</p>
+                <div class="newsletter">
+                    <input placeholder="Email address" aria-label="Email for newsletter" />
+                    <button>Subscribe</button>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">&copy; 2025 ChainCart. All rights reserved.</div>
+    </footer>
+</body>
+</html>
+    

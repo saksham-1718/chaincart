@@ -1,0 +1,71 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Art - ChainCart</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+             <a href="./index.html" class="logo">ChainCart</a>
+
+                <nav>
+                    <ul>
+                        <li><a href="{% url 'home' %}">Home</a></li>
+                        <li><a href="{% url 'digital-art' %}" class="active">Digital Art</a></li>
+                        <li><a href="{% url 'sculpture' %}">Sculpture</a></li>
+                        <li><a href="{% url 'photography' %}">Photography</a></li>
+                        <li><a href="{% url 'auction' %}">Auction</a></li>
+                        <li><a href="{% url 'cart' %}"><i class="fa-solid fa-cart-shopping"></i></a></li>
+                        <li><a href="{% url 'wallet' %}"><i class="fa-solid fa-wallet"></i></a></li>
+                        <li><a href="{% url 'account' %}"><i class="fa-regular fa-circle-user"></i></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Digital Art</h1>
+            <p>Explore digital art and prints.</p>
+        </div>
+    </section>
+
+    <div class="container">
+        <section>
+            <h2>Digital Art Collection</h2>
+                <div class="artworks-grid">
+                {% for art in artworks %}
+                <div class="artwork-card">
+                <!-- Link wraps the image -->
+                <a href="{% url 'product1' art.id %}">
+                    <div class="artwork-image" 
+                         style="background-image: url('{{ art.p_image_url }}');">
+                    </div>
+                </a>
+                <div class="artwork-details">
+                    <div class="artwork-title">{{ art.p_title }}</div>
+                    <div class="artwork-artist">By {{ art.p_artist }}</div>
+                    <div class="artwork-medium">{{ art.p_desc }}</div>
+                    {% if art.p_dims %}
+                    <div class="artwork-dimensions">{{ art.p_dims }}</div>
+                    {% endif %}
+                    <div class="artwork-price">{{ art.p_price }}</div>
+                </div>
+            </div>
+            {% endfor %}
+            </div>
+
+        </section>
+    </div>
+
+    <script src="{% static 'script.js' %}"></script>
+</body>
+</html>

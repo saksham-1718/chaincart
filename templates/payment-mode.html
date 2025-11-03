@@ -1,0 +1,80 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Payment - ChainCart</title>
+  <link rel="stylesheet" href="{% static 'style.css' %}" />
+</head>
+<body>
+  <header>
+    <div class="container header-content">
+      <a href="{% url 'home' %}" class="logo">ChainCart</a>
+    </div>
+  </header>
+
+  <div class="container checkout three-column">
+    <aside class="checkout-steps">
+      <ol>
+        <li class="step-item">
+          <a href="{% url 'order-summary' %}">
+            <span class="step-num">1</span>
+            <div class="step-title">Order Summary</div>
+          </a>
+        </li>
+        <li class="step-item">
+          <a href="{% url 'address' %}">
+            <span class="step-num">2</span>
+            <div class="step-title">Shipping Address</div>
+          </a>
+        </li>
+        <li class="step-item">
+          <a href="{% url 'review' %}">
+            <span class="step-num">3</span>
+            <div class="step-title">Review & Place</div>
+          </a>
+        </li>
+        <li class="step-item">
+          <a href="{% url 'payment-mode' %}">
+            <span class="step-num">4</span>
+            <div class="step-title">Payment</div>
+          </a>
+        </li>
+        <li class="step-item">
+          <a href="{% url 'confirmation' %}">
+            <span class="step-num">5</span>
+            <div class="step-title">Confirmation</div>
+          </a>
+        </li>
+    </ol>
+    </aside>
+
+    <main class="checkout-main">
+      <h2>Select Payment Method</h2>
+      <form id="payment-form" class="payment-form">
+        <label class="pm-option"><input type="radio" name="method" value="card" checked>Credit / Debit Card</label>
+        <label class="pm-option"><input type="radio" name="method" value="upi">UPI</label>
+        <label class="pm-option"><input type="radio" name="method" value="wallet">ChainCart Wallet</label>
+
+        <div id="wallet-balance-inline" class="wallet-balance-inline">Balance: \u20b9 0.00</div>
+
+        <div class="checkout-actions">
+          <a href="{% url 'review' %}" class="btn secondary">Back</a>
+          <button type="submit" class="btn primary">Pay & Place Order</button>
+        </div>
+      </form>
+    </main>
+
+    <aside class="order-card" id="order-card">
+      <h4>Your Order</h4>
+      <div id="order-items"></div>
+      <div class="oc-totals"><span>Grand Total</span><span id="oc-total">\u20b9 0.00</span></div>
+    </aside>
+  </div>
+
+  <script src="{% static 'checkout.js' %}"></script>
+  <script src="{% static 'script.js' %}"></script>
+</body>
+</html>

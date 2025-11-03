@@ -1,0 +1,76 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Order Placed - ChainCart</title>
+  <link rel="stylesheet" href="{% static 'style.css' %}" />
+</head>
+<body>
+  <header>
+    <div class="container header-content">
+      <a href="{% url 'home' %}" class="logo">ChainCart</a>
+    </div>
+  </header>
+
+  <div class="container checkout two-column">
+    <aside class="checkout-steps">
+      <ol>
+        <li class="step-item">
+          <a href="{% url 'order-summary' %}">
+            <span class="step-num">1</span>
+            <div class="step-title">Order Summary</div>
+          </a>
+        </li>
+        <li class="step-item">
+          <a href="{% url 'address' %}">
+            <span class="step-num">2</span>
+            <div class="step-title">Shipping Address</div>
+          </a>
+        </li>
+        <li class="step-item">
+          <a href="{% url 'review' %}">
+            <span class="step-num">3</span>
+            <div class="step-title">Review & Place</div>
+          </a>
+        </li>
+        <li class="step-item">
+          <a href="{% url 'payment-mode' %}">
+            <span class="step-num">4</span>
+            <div class="step-title">Payment</div>
+          </a>
+        </li>
+        <li class="step-item">
+          <a href="{% url 'confirmation' %}">
+            <span class="step-num">5</span>
+            <div class="step-title">Confirmation</div>
+          </a>
+        </li>
+     </ol>
+    </aside>
+
+    <main class="checkout-main centered">
+      <div class="order-success">
+        <div class="success-icon" role="img" aria-label="Order placed successfully">
+          <svg width="56" height="56" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="12" cy="12" r="12" fill="#22c55e"/>
+            <path d="M17 8.5L10.5 15L7 11.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h2>Order Placed Successfully</h2>
+        <p id="order-id">Order ID: -</p>
+        <p>We've sent an order confirmation to your email (if provided) and will notify you about shipping updates.</p>
+        <div class="checkout-actions">
+          <a href="{% url 'home' %}" class="btn">Continue Shopping</a>
+          <a href="{% url 'cart' %}" class="btn secondary">View Cart</a>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="{% static 'checkout.js' %}"></script>
+  <script src="{% static 'script.js' %}"></script>
+</body>
+</html>

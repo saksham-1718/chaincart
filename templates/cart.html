@@ -1,0 +1,73 @@
+{% load static %}
+{% load cart_filters %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cart - ChainCart</title>
+  <link rel="stylesheet" href="{% static 'style.css' %}" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <header>
+    <div class="container header-content">
+      <a href="{% url 'home' %}" class="logo">ChainCart</a>
+      <nav>
+        <ul>
+            <li><a href="{% url 'home' %}" class="active">Home</a></li>
+            <li><a href="{% url 'digital-art' %}">Digital Art</a></li>
+            <li><a href="{% url 'sculpture' %}">Sculpture</a></li>
+            <li><a href="{% url 'photography' %}">Photography</a></li>
+           <li><a href="{% url 'auction' %}">Auction</a></li>
+          <li><a href="{% url 'order-summary' %}">Checkout</a></li>
+          <li><a href="{% url 'cart' %}" title="Cart" class="active"><i class="fa-solid fa-cart-shopping"></i></a></li>
+          <li><a href="{% url 'wallet' %}" title="Wallet"><i class="fa-solid fa-wallet"></i></a></li>
+          <li><a href="{% url 'account' %}" title="Account"><i class="fa-regular fa-circle-user"></i></a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container checkout">
+    <h2>Your Cart</h2>
+    <div id="cart-contents" class="summary-list">
+      {% if cart_items %}
+        <table>
+          <tr>
+            <th>Image</th>
+            <th>Title</th>
+            <th>Artist</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+          </tr>
+          {% for item in cart_items %}
+          <tr>
+            <td><img src="{{ item.painting.p_image_url }}" alt="{{ item.painting.p_title }}" width="50"></td>
+            <td>{{ item.painting.p_title }}</td>
+            <td>{{ item.painting.p_artist }}</td>
+            <td>{{ item.painting.p_price }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.painting.p_price|multiply:item.quantity }}</td>
+          </tr>
+          {% endfor %}
+        </table>
+        <h3>Total Price: ₹{{ total_price }}</h3>
+      {% else %}
+        <p>Your cart is empty. Use Add to Cart on product pages to add items.</p>
+      {% endif %}
+    </div>
+
+    <div class="checkout-actions">
+      <a href="{% url 'home' %}" class="btn secondary">Continue Shopping</a>
+      {% if cart_items %}
+      <a href="{% url 'order-summary' %}" class="btn primary">Proceed to Checkout</a>
+      {% endif %}
+    </div>
+  </div>
+
+  <script src="{% static 'script.js' %}"></script>
+</body>
+</html>

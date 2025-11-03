@@ -1,0 +1,70 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallet - ChainCart</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="./index.html" class="logo">ChainCart</a>
+                <nav>
+                    <ul>
+                       <li><a href="{% url 'home' %}">Home</a></li>
+                        <li><a href="{% url 'digital-art' %}">Digital Art</a></li>
+                        <li><a href="{% url 'sculpture' %}">Sculpture</a></li>
+                        <li><a href="{% url 'photography' %}">Photography</a></li>
+                        <li><a href="{% url 'auction' %}">Auction</a></li>
+                        <li><a href="{% url 'cart' %}"><i class="fa-solid fa-cart-shopping"></i></a></li>
+                        <li><a href="{% url 'wallet' %}" class="active"><i class="fa-solid fa-wallet"></i></a></li>
+                        <li><a href="{% url 'account' %}"><i class="fa-regular fa-circle-user"></i></a></li>
+
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <section>
+            <h2>Wallet</h2>
+            <div class="wallet-section">
+                <div class="wallet-panel">
+                    <div class="wallet-left">
+                        <div class="wallet-card">
+                            <div class="wallet-balance">
+                                <div class="label">Balance</div>
+                                <div id="wallet-balance" class="amount">₹ 0.00 INR</div>
+                            </div>
+                            <div class="wallet-actions">
+                                <button id="connect-wallet" class="wallet-connect">Connect Wallet</button>
+                                <div class="wallet-controls">
+                                    <input id="amount-input" type="number" min="0" step="10" placeholder="Amount (RS)">
+                                    <button id="add-funds" class="wallet-action">Add</button>
+                                    <button id="withdraw-funds" class="wallet-action">Withdraw</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="wallet-info">
+                            <p id="wallet-status">Not connected</p>
+                        </div>
+                    </div>
+                    <div class="wallet-right">
+                        <h3>Recent Transactions</h3>
+                        <ul id="tx-list" class="tx-list"></ul>
+                        <button id="clear-tx" class="small">Clear History</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="{% static 'script.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,191 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChainCart - India's Premier Online Art Gallery</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="{% url 'home' %}" class="logo">ChainCart</a>
+                <nav>
+                    <ul>
+                        <li><a href="{% url 'home' %}">Home</a></li>
+                        <li><a href="{% url 'digital-art' %}">Digital Art</a></li>
+                        <li><a href="{% url 'sculpture' %}">Sculpture</a></li>
+                        <li><a href="{% url 'photography' %}">Photography</a></li>
+                        <li><a href="{% url 'auction' %}">Auction</a></li>
+                        <li><a href="{% url 'cart' %}" aria-label="Cart"><i class="fa-solid fa-cart-shopping"></i></a></li>
+                        <li><a href="{% url 'wallet' %}" aria-label="Wallet"><i class="fa-solid fa-wallet"></i></a></li>
+                        <li><a href="{% url 'account' %}" aria-label="Account"><i class="fa-regular fa-circle-user"></i></a></li>
+
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+   <section id="prodetails" class="section-p1">
+    <div class="single-pro-image">
+        <img src="{{ painting.p_image_url }}" width="100%" id="MainImg" alt="{{ painting.p_title }}">
+    </div> 
+    <div class="single-pro-details">
+        <h6>Home / {{ painting.p_artist }}</h6>
+        <h4>{{ painting.p_title }} By {{ painting.p_artist }}</h4>
+        <div class="star">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+        </div>
+        <h2>{{ painting.p_price }}</h2>
+
+        <button id="sign-in-btn" class="btn">BUY</button>
+        <a href="{% url 'add-to-cart' painting.id %}" class="btn secondary">ADD TO CART</a>
+        <h4>Product Details</h4>
+        <span>{{ painting.p_desc }}</span>
+        {% if painting.p_dims %}
+        <p>Dimensions: {{ painting.p_dims }}</p>
+        {% endif %}
+    </div>
+</section>
+
+    <!-- Recommended paintings -->
+    <section id="recommendations">
+        <div class="container">
+            <h2>Recommended paintings you may like</h2>
+            <div class="artworks-grid">
+                <div class="artwork-card">
+                    <div class="artwork-image rec-img-11"></div>
+                    <div class="artwork-details">
+                        <div class="artwork-title">Untitled Landscape</div>
+                        <div class="artwork-artist">By Dnyaneshwar Dhavale</div>
+                        <div class="artwork-medium">Acrylic on Canvas</div>
+                        <div class="artwork-price">₹1,26,000</div>
+                    </div>
+                </div>
+
+                <div class="artwork-card">
+                        <div class="artwork-image rec-img-1"></div>
+                    <div class="artwork-details">
+                        <div class="artwork-title">Aesthetics Of Energy</div>
+                        <div class="artwork-artist">By Ashis Mondal</div>
+                        <div class="artwork-medium">Oil on Canvas</div>
+                        <div class="artwork-price">₹88,200</div>
+                    </div>
+                </div>
+
+                <div class="artwork-card">
+                        <div class="artwork-image rec-img-2"></div>
+                    <div class="artwork-details">
+                        <div class="artwork-title">Whispers of Twilight</div>
+                        <div class="artwork-artist">By Anuja Saxena</div>
+                        <div class="artwork-medium">Oil on Canvas</div>
+                        <div class="artwork-price">₹24,675</div>
+                    </div>
+                </div>
+
+                <div class="artwork-card">
+                        <div class="artwork-image rec-img-3"></div>
+                    <div class="artwork-details">
+                        <div class="artwork-title">Journey Of Buddha</div>
+                        <div class="artwork-artist">By Kandan C</div>
+                        <div class="artwork-medium">Painting</div>
+                        <div class="artwork-price">Price on request</div>
+                    </div>
+                </div>
+
+                <div class="artwork-card">
+                        <div class="artwork-image rec-img-4"></div>
+                    <div class="artwork-details">
+                        <div class="artwork-title">Serene Horizon</div>
+                        <div class="artwork-artist">By Meera Joshi</div>
+                        <div class="artwork-medium">Acrylic on Canvas</div>
+                        <div class="artwork-price">₹32,400</div>
+                    </div>
+                </div>
+
+                <div class="artwork-card">
+                        <div class="artwork-image rec-img-5"></div>
+                    <div class="artwork-details">
+                        <div class="artwork-title">Golden Dusk</div>
+                        <div class="artwork-artist">By Rajesh Kumar</div>
+                        <div class="artwork-medium">Mixed Media</div>
+                        <div class="artwork-price">₹45,000</div>
+                    </div>
+                </div>
+
+                <div class="artwork-card">
+                        <div class="artwork-image rec-img-7"></div>
+                    <div class="artwork-details">
+                        <div class="artwork-title">Urban Echoes</div>
+                        <div class="artwork-artist">By Vikram Singh</div>
+                        <div class="artwork-medium">Acrylic</div>
+                        <div class="artwork-price">₹21,000</div>
+                    </div>
+                </div>
+
+                <div class="artwork-card">
+                        <div class="artwork-image rec-img-9"></div>
+                    <div class="artwork-details">
+                        <div class="artwork-title">Coastal Memory</div>
+                        <div class="artwork-artist">By Sohail Ahmad</div>
+                        <div class="artwork-medium">Acrylic</div>
+                        <div class="artwork-price">₹27,300</div>
+                    </div>
+                </div>
+
+                <div class="artwork-card">
+                        <div class="artwork-image rec-img-10"></div>
+                    <div class="artwork-details">
+                        <div class="artwork-title">Vibrant Threads</div>
+                        <div class="artwork-artist">By Neha Gupta</div>
+                        <div class="artwork-medium">Mixed Media</div>
+                        <div class="artwork-price">₹16,500</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-section">
+                <h3>About ChainCart</h3>
+                <p>ChainCart connects collectors and artists. Discover original artworks from emerging and established creators across India.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'auction' %}">Auction</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Support</h3>
+              
+            </div>
+            <div class="footer-section">
+                <h3>Newsletter</h3>
+                <p>Get weekly updates about new arrivals and exclusive offers.</p>
+                <div class="newsletter">
+                    <input placeholder="Email address" aria-label="Email for newsletter" />
+                    <button>Subscribe</button>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">&copy; 2025 ChainCart. All rights reserved.</div>
+    </footer>
+
+</body>
+</html>
