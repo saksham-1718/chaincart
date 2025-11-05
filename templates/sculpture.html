@@ -46,7 +46,7 @@
                      {% for art in artworks %}
                 <div class="artwork-card">
                 <!-- Link wraps the image -->
-                <a href="{% url 'product1' art.id %}">
+                 <a href="{% url 'product1' art.id %}">
                     <div class="artwork-image" 
                          style="background-image: url('{{ art.p_image_url }}');">
                     </div>
@@ -61,7 +61,7 @@
                     <div class="artwork-price">{{ art.p_price }}</div>
                 </div>
             </div>
-            {% endfor %}               
+            {% endfor %}
             </div>
 
         </section>

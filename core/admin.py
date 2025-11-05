@@ -1,10 +1,10 @@
 from django.contrib import admin
-from .models import Painting_detail
+from .models import Profile, CartItem
 
+@admin.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ('user', 'phone', 'member_since')
 
-class PaintingDetailAdmin(admin.ModelAdmin):
-    list_display = ('p_title', 'p_artist', 'p_price', 'p_image_url')
-
-admin.site.register(Painting_detail, PaintingDetailAdmin)
-
-
+@admin.register(CartItem)
+class CartItemAdmin(admin.ModelAdmin):
+    list_display = ('user', 'painting_title', 'painting_price', 'quantity')

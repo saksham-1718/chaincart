@@ -59,6 +59,10 @@
                         {% csrf_token %}
                         <button type="submit" class="btn secondary">Sign Out</button>
                     </form>
+                    <form method="POST" action="{% url 'listing' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn secondary">Sell on ChainCart</button>
+                    </form>
                 </div>
             {% else %}
                 <h3 id="user-name">Guest User</h3>

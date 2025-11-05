@@ -16,9 +16,10 @@
   </header>
 
   <div class="container checkout two-column">
+    <!-- Sidebar Steps -->
     <aside class="checkout-steps">
       <ol>
-       <li class="step-item">
+        <li class="step-item">
           <a href="{% url 'order-summary' %}">
             <span class="step-num">1</span>
             <div class="step-title">Order Summary</div>
@@ -30,7 +31,7 @@
             <div class="step-title">Shipping Address</div>
           </a>
         </li>
-        <li class="step-item">
+        <li class="step-item active">
           <a href="{% url 'review' %}">
             <span class="step-num">3</span>
             <div class="step-title">Review & Place</div>
@@ -48,15 +49,75 @@
             <div class="step-title">Confirmation</div>
           </a>
         </li>
-    </ol>
+      </ol>
     </aside>
 
+    <!-- Main Content -->
     <main class="checkout-main">
       <h2>Review & Place Order</h2>
-      <section id="review-section"></section>
+
+      <!-- Shipping Address -->
+      <section class="review-section">
+        <h3>Shipping Address</h3>
+        {% if shipping %}
+          <div class="address-box">
+            <p><strong>{{ shipping.name }}</strong></p>
+            <p>{{ shipping.address }}</p>
+            <p>{{ shipping.city }}, {{ shipping.state }} - {{ shipping.pincode }}</p>
+            <p>📞 {{ shipping.phone }}</p>
+          </div>
+        {% else %}
+          <p>No shipping address found. <a href="{% url 'address' %}">Add one</a>.</p>
+        {% endif %}
+      </section>
+
+      <!-- Order Items -->
+      <section class="review-section">
+        <h3>Order Items</h3>
+        {% if cart_data %}
+          <table class="review-table">
+            <tr>
+              <th>Image</th>
+              <th>Title</th>
+              <th>Artist</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th>Total</th>
+            </tr>
+            {% for item in cart_data %}
+              <tr>
+                <td>
+                  {% if item.image_id %}
+<img src="/media/mongo_image/{{ item.image_id }}/" width="80" alt="{{ item.title }}">                  {% else %}
+                    <span>No image</span>
+                  {% endif %}
+                </td>
+                <td>{{ item.title }}</td>
+                <td>{{ item.artist }}</td>
+                <td>₹{{ item.price }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>₹{{ item.total }}</td>
+              </tr>
+            {% endfor %}
+          </table>
+        {% else %}
+          <p>No items found in your order.</p>
+        {% endif %}
+      </section>
+
+      <!-- Totals -->
+      <section class="summary-totals">
+        <div><span>Subtotal</span><span>₹{{ subtotal }}</span></div>
+        <div><span>Shipping</span><span>₹{{ shipping_charge }}</span></div>
+        <div class="summary-total"><strong>Total</strong><strong>₹{{ total }}</strong></div>
+      </section>
+
+      <!-- Actions -->
       <div class="checkout-actions">
         <a href="{% url 'address' %}" class="btn secondary">Edit Address</a>
-        <a href="{% url 'payment-mode' %}" class="btn primary">Choose Payment</a>
+        {% if cart_data %}
+          <a href="{% url 'payment-mode' %}" class="btn primary">Proceed to Payment</a>
+        {% endif %}
       </div>
     </main>
   </div>

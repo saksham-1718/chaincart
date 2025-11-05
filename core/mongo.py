@@ -6,7 +6,7 @@ from datetime import datetime
 # Load environment variables
 load_dotenv()
 
-MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017")
+MONGO_URI = os.getenv("MONGO_URI", "mongodb+srv://sakshamsingh171845_db_user:Saksham1718@cluster0.6vepxmg.mongodb.net/?appName=Cluster0")
 MONGO_DB_NAME = os.getenv("MONGO_DB_NAME", "chaincart")
 
 # MongoDB connection

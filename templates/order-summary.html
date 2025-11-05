@@ -19,7 +19,7 @@
   <div class="container checkout two-column">
     <aside class="checkout-steps">
       <ol>
-        <li class="step-item">
+        <li class="step-item active">
           <a href="{% url 'order-summary' %}">
             <span class="step-num">1</span>
             <div class="step-title">Order Summary</div>
@@ -56,7 +56,7 @@
       <h2>Order Summary</h2>
 
       <div id="summary-list" class="summary-list">
-        {% if cart_items %}
+        {% if cart_data %}
           <table>
             <tr>
               <th>Image</th>
@@ -66,16 +66,22 @@
               <th>Quantity</th>
               <th>Total</th>
             </tr>
-            {% for item in cart_items %}
-            <tr>
-              <td><img src="{{ item.painting.p_image_url }}" alt="{{ item.painting.p_title }}" width="50"></td>
-              <td>{{ item.painting.p_title }}</td>
-              <td>{{ item.painting.p_artist }}</td>
-              <td>{{ item.painting.p_price }}</td>
-              <td>{{ item.quantity }}</td>
-              <td>{{ item.painting.p_price|multiply:item.quantity }}</td>
-            </tr>
-            {% endfor %}
+            {% for item in cart_data %}
+    <tr>
+        <td>
+            {% if item.image_id %}
+            <img src="/media/mongo_image/{{ item.image_id }}/" width="80" alt="{{ item.title }}">
+            {% else %}
+            <span>No image</span>
+            {% endif %}
+        </td>
+        <td>{{ item.title }}</td>
+        <td>{{ item.artist }}</td>
+        <td>{{ item.price }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>{{ item.total }}</td>
+    </tr>
+    {% endfor %}
           </table>
         {% else %}
           <p>Your cart is empty.</p>
@@ -90,7 +96,7 @@
 
       <div class="checkout-actions">
         <a href="{% url 'cart' %}" class="btn secondary">Back to Cart</a>
-        {% if cart_items %}
+        {% if cart_data %}
           <a href="{% url 'address' %}" class="btn primary">Proceed to Address</a>
         {% endif %}
       </div>
