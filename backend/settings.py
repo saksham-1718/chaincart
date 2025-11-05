@@ -16,9 +16,8 @@ load_dotenv(BASE_DIR / ".env")
 # Basic Django Settings
 # ======================================
 SECRET_KEY = os.getenv("SECRET_KEY", "django-insecure-placeholder")
-DEBUG = os.getenv("DEBUG", "True") == "True"
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
-
+DEBUG = False
+ALLOWED_HOSTS = ['.vercel.app', 'localhost']
 # ======================================
 # Application Definition
 # ======================================
@@ -146,6 +145,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
 
