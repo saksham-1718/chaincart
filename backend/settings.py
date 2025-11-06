@@ -81,13 +81,13 @@ MONGO_DB_NAME = os.getenv("MONGO_DB_NAME", "chaincart")
 # ======================================
 # Razorpay & Blockchain Config
 # ======================================
-RAZORPAY_KEY_ID = os.getenv("RAZORPAY_KEY_ID")
-RAZORPAY_KEY_SECRET = os.getenv("RAZORPAY_KEY_SECRET")
+# RAZORPAY_KEY_ID = os.getenv("RAZORPAY_KEY_ID")
+# RAZORPAY_KEY_SECRET = os.getenv("RAZORPAY_KEY_SECRET")
 
-WEB3_RPC_URL = os.getenv("WEB3_RPC_URL")
-PRIVATE_KEY = os.getenv("PRIVATE_KEY")
-CONTRACT_ADDRESS = os.getenv("CONTRACT_ADDRESS")
-CHAIN_ID = int(os.getenv("CHAIN_ID", "80001"))  # Default to Mumbai testnet
+# WEB3_RPC_URL = os.getenv("WEB3_RPC_URL")
+# PRIVATE_KEY = os.getenv("PRIVATE_KEY")
+# CONTRACT_ADDRESS = os.getenv("CONTRACT_ADDRESS")
+# CHAIN_ID = int(os.getenv("CHAIN_ID", "80001"))  # Default to Mumbai testnet
 
 # ======================================
 # Static and Media Files
@@ -146,6 +146,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 

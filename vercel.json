@@ -1,14 +1,18 @@
 {
   "builds": [
     {
-      "src": "manage.py",
+      "src": "backend/wsgi.py",
       "use": "@vercel/python"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "manage.py"
+      "dest": "backend/wsgi.py"
     }
-  ]
+  ],
+  "env": {
+    "DJANGO_SETTINGS_MODULE": "backend.settings",
+    "PYTHONUNBUFFERED": "1"
+  }
 }
