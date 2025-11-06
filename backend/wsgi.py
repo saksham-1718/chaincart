@@ -13,4 +13,12 @@ from django.core.wsgi import get_wsgi_application
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
 
+import traceback
+from django.core.wsgi import get_wsgi_application
+
+try:
+    application = get_wsgi_application()
+except Exception:
+    traceback.print_exc()
+
 application = get_wsgi_application()
