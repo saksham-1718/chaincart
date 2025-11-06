@@ -15,9 +15,9 @@ load_dotenv(BASE_DIR / ".env")
 # ======================================
 # Basic Django Settings
 # ======================================
-SECRET_KEY = os.getenv("SECRET_KEY", "django-insecure-placeholder")
-DEBUG = False
-ALLOWED_HOSTS = ['.vercel.app', 'localhost']
+SECRET_KEY = os.getenv("SECRET_KEY", "br*xk%s5q1)mr23xc4-jl#xui30+#607*zoo*0%f3vjj@)g5v1")
+DEBUG = True
+ALLOWED_HOSTS = ['.vercel.app', 'localhost',"127.0.0.1"]
 # ======================================
 # Application Definition
 # ======================================

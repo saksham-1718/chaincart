@@ -10,6 +10,7 @@ from .mongo_client import db
 import gridfs
 from bson import ObjectId
 from pymongo import MongoClient
+from core.blockchain_utils import sync_artwork_to_blockchain
 
 client = MongoClient("mongodb+srv://sakshamsingh171845_db_user:Saksham1718@cluster0.6vepxmg.mongodb.net/?appName=Cluster0")
 db = client["chaincart"]
@@ -29,6 +30,7 @@ def home(request):
 def auction(request):
     artworks = list(db["products"].find())
     for art in artworks:
+        art["id"] = str(art["_id"])
         if "image_id" in art:
             art["p_image_url"] = f"/media/mongo_image/{art['image_id']}/"
     return render(request, 'auction.html', {'artworks': artworks})
@@ -59,6 +61,12 @@ def listing(request):
             "p_shipping": request.POST.get("shipping"),
             "image_id": str(image_id)
         })
+        title = request.POST["p_title"]
+        artist = request.POST["p_artist"]
+        price = request.POST["p_price"]
+
+        sync_artwork_to_blockchain(title, artist, int(price))
+        messages.success(request, "Artwork successfully added to blockchain!")
 
         messages.success(request, "🎨 Artwork listed successfully!")
         return redirect("listing")
