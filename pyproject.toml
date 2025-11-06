@@ -1,6 +1,2 @@
-[project]
-name = "chaincart"
-version = "0.0.1"
-
 [tool.poetry.dependencies]
 python = ">=3.10,<3.11"
