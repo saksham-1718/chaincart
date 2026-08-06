@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Verify — {{ art.p_title }}</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <main class="container" style="padding: 40px 0;">
+        <h1>{{ art.p_title }}</h1>
+
+        {% if chain_data %}
+            {% if verified %}
+                <p style="color: green; font-weight: bold;">✅ Verified on-chain — MongoDB and blockchain data match.</p>
+            {% else %}
+                <p style="color: #b30000; font-weight: bold;">⚠️ Mismatch detected between MongoDB and blockchain for: {{ mismatches|join:", " }}</p>
+            {% endif %}
+
+            <h3>On-chain record (Artwork ID {{ chain_data.id }})</h3>
+            <ul>
+                <li><strong>Title:</strong> {{ chain_data.title }}</li>
+                <li><strong>Artist:</strong> {{ chain_data.artist }}</li>
+                <li><strong>Original artist wallet:</strong> {{ chain_data.original_artist }}</li>
+                <li><strong>Current owner wallet:</strong> {{ chain_data.current_owner }}</li>
+                <li><strong>Price (on-chain):</strong> {{ chain_data.price }}</li>
+                <li><strong>Listed:</strong> {{ chain_data.listed }}</li>
+            </ul>
+        {% else %}
+            <p style="color: #b30000;">⚠️ Not verifiable — this artwork has no linked blockchain record (likely listed before blockchain integration was added).</p>
+        {% endif %}
+
+        <a href="{% url 'home' %}">← Back to home</a>
+    </main>
+</body>
+</html>

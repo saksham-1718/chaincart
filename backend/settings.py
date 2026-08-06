@@ -4,6 +4,7 @@ Django settings for backend project.
 
 from pathlib import Path
 import os
+import dj_database_url
 from dotenv import load_dotenv
 
 # ======================================
@@ -15,9 +16,10 @@ load_dotenv(BASE_DIR / ".env")
 # ======================================
 # Basic Django Settings
 # ======================================
-SECRET_KEY = os.getenv("SECRET_KEY", "br*xk%s5q1)mr23xc4-jl#xui30+#607*zoo*0%f3vjj@)g5v1")
-DEBUG = True
-ALLOWED_HOSTS = ['.vercel.app', 'localhost',"127.0.0.1"]
+SECRET_KEY = os.getenv("SECRET_KEY")
+DEBUG = os.getenv("DEBUG", "False") == "True"
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.onrender.com', 'chaincart.in', 'www.chaincart.in']
+
 # ======================================
 # Application Definition
 # ======================================
@@ -33,6 +35,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -64,36 +67,31 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # ======================================
 # Databases
 # ======================================
-# Default Django DB (only for admin/auth)
+# Default Django DB (only for admin/auth) — Neon Postgres
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default=os.getenv('DATABASE_URL'),
+        conn_max_age=600,
+        ssl_require=True,
+    )
 }
 
 # ======================================
 # MongoDB Configuration (used by core/mongo.py)
 # ======================================
-MONGO_URI = os.getenv("MONGO_URI", "mongodb+srv://sakshamsingh171845_db_user:Saksham1718@cluster0.6vepxmg.mongodb.net/?appName=Cluster0")
+MONGO_URI = os.getenv("MONGO_URI")
 MONGO_DB_NAME = os.getenv("MONGO_DB_NAME", "chaincart")
 
-# ======================================
-# Razorpay & Blockchain Config
-# ======================================
-# RAZORPAY_KEY_ID = os.getenv("RAZORPAY_KEY_ID")
-# RAZORPAY_KEY_SECRET = os.getenv("RAZORPAY_KEY_SECRET")
-
-# WEB3_RPC_URL = os.getenv("WEB3_RPC_URL")
-# PRIVATE_KEY = os.getenv("PRIVATE_KEY")
-# CONTRACT_ADDRESS = os.getenv("CONTRACT_ADDRESS")
-# CHAIN_ID = int(os.getenv("CHAIN_ID", "80001"))  # Default to Mumbai testnet
+if not MONGO_URI:
+    raise RuntimeError("MONGO_URI is not set in environment variables.")
 
 # ======================================
 # Static and Media Files
 # ======================================
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
@@ -108,56 +106,38 @@ LOGIN_URL = '/login/'
 # ======================================
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
+# ======================================
 # Password validation
-# https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
-
+# ======================================
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-
+# ======================================
 # Internationalization
-# https://docs.djangoproject.com/en/5.2/topics/i18n/
-
+# ======================================
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
 
+# ======================================
+# Sessions
+# ======================================
+SESSION_COOKIE_AGE = 900  # 15 minutes, in seconds
+SESSION_SAVE_EVERY_REQUEST = True  # refresh the expiry timer on every request (idle timeout, not absolute)
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False  # keep as False so a short idle gap doesn't also require closing the browser to matter
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
-
-STATIC_URL = '/static/'
-STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
-
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
-
-LOGIN_URL = '/login/'
+# ======================================
+# Email (Gmail SMTP)
+# ======================================
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

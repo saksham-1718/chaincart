@@ -4,6 +4,9 @@ from solcx import compile_standard, install_solc
 print("🧩 Installing Solidity compiler...")
 install_solc('0.8.0')
 
+import os
+os.makedirs("contracts/build", exist_ok=True)
+
 with open("contracts/ArtMarketplace.sol", "r") as file:
     contract_source = file.read()
 

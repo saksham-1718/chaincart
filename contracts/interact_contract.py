@@ -65,21 +65,21 @@ except Exception as e:
 # ================================================
 # 🎨 Blockchain Interaction Functions
 # ================================================
-def list_artwork(title, artist, price):
-    """List a new artwork on the blockchain"""
-    if not (w3 and account and contract):
+def list_artwork(title, artist, price, artist_address, artist_private_key):
+    """List a new artwork on the blockchain — signed by the ARTIST's own wallet."""
+    if not (w3 and contract):
         print("⚠️ Blockchain not configured — skipping list_artwork()")
         return None
 
     try:
         tx = contract.functions.listArtwork(title, artist, price).build_transaction({
-            "from": account.address,
-            "nonce": w3.eth.get_transaction_count(account.address),
+            "from": artist_address,
+            "nonce": w3.eth.get_transaction_count(artist_address),
             "gas": 3000000,
             "gasPrice": w3.to_wei("2", "gwei"),
         })
-        signed_tx = w3.eth.account.sign_transaction(tx, PRIVATE_KEY)
-        tx_hash = w3.eth.send_raw_transaction(signed_tx.rawTransaction)
+        signed_tx = w3.eth.account.sign_transaction(tx, artist_private_key)
+        tx_hash = w3.eth.send_raw_transaction(signed_tx.raw_transaction)
         receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
         print(f"✅ Artwork listed successfully! Tx Hash: {tx_hash.hex()}")
         return receipt
@@ -100,24 +100,61 @@ def get_artwork(id):
         return None
 
 
-def relist_artwork(id, new_price):
-    """Relist artwork with a new price"""
-    if not (w3 and account and contract):
+def relist_artwork(id, new_price, owner_address, owner_private_key):
+    """Relist an artwork — must be signed by the CURRENT OWNER's own wallet."""
+    if not (w3 and contract):
         print("⚠️ Blockchain not configured — skipping relist_artwork()")
         return None
 
     try:
         tx = contract.functions.relistArtwork(id, new_price).build_transaction({
-            'from': account.address,
-            'nonce': w3.eth.get_transaction_count(account.address),
+            'from': owner_address,
+            'nonce': w3.eth.get_transaction_count(owner_address),
             'gas': 3000000,
             'gasPrice': w3.to_wei('2', 'gwei'),
         })
-        signed_tx = w3.eth.account.sign_transaction(tx, PRIVATE_KEY)
-        tx_hash = w3.eth.send_raw_transaction(signed_tx.rawTransaction)
+        signed_tx = w3.eth.account.sign_transaction(tx, owner_private_key)
+        tx_hash = w3.eth.send_raw_transaction(signed_tx.raw_transaction)
         receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
         print(f"✅ Artwork relisted successfully! Tx Hash: {tx_hash.hex()}")
         return receipt
     except Exception as e:
         print(f"⚠️ Failed to relist artwork: {e}")
+        return None
+
+
+def get_id_from_receipt(receipt):
+    """Extract the artwork ID emitted by the ArtworkListed event in a transaction receipt."""
+    if not contract or not receipt:
+        return None
+    try:
+        logs = contract.events.ArtworkListed().process_receipt(receipt)
+        if logs:
+            return logs[0]["args"]["id"]
+    except Exception as e:
+        print(f"⚠️ Failed to parse ArtworkListed event: {e}")
+    return None
+
+
+def buy_artwork(id, price, buyer_address, buyer_private_key):
+    """Buy an artwork on-chain, signed by the BUYER's own wallet (not the backend's)."""
+    if not (w3 and contract):
+        print("⚠️ Blockchain not configured — skipping buy_artwork()")
+        return None
+
+    try:
+        tx = contract.functions.buyArtwork(id).build_transaction({
+            "from": buyer_address,
+            "value": price,  # price is stored on-chain as a plain integer — see note below
+            "nonce": w3.eth.get_transaction_count(buyer_address),
+            "gas": 3000000,
+            "gasPrice": w3.to_wei("2", "gwei"),
+        })
+        signed_tx = w3.eth.account.sign_transaction(tx, buyer_private_key)
+        tx_hash = w3.eth.send_raw_transaction(signed_tx.raw_transaction)
+        receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
+        print(f"✅ Artwork purchased on-chain! Tx Hash: {tx_hash.hex()}")
+        return receipt
+    except Exception as e:
+        print(f"⚠️ Failed to buy artwork: {e}")
         return None

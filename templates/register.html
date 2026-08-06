@@ -31,7 +31,7 @@
         </ul>
       {% endif %}
 
-      <form method="POST" class="auth-form">
+      <form method="POST" class="auth-form" enctype="multipart/form-data">
         {% csrf_token %}
         <label for="name">Full Name</label>
         <input id="name" name="name" type="text" placeholder="Your name" required>
@@ -41,9 +41,12 @@
         <input id="password" name="password" type="password" placeholder="Choose a password" required>
         <label for="confirm_password">Confirm Password</label>
         <input id="confirm_password" name="confirm_password" type="password" placeholder="Confirm password" required>
+        <label for="avatar">Profile Photo (optional)</label>
+        <input id="avatar" name="avatar" type="file" accept="image/*">
         <button class="btn primary" type="submit">Create Account</button>
       </form>
 
+      
       <p class="muted small">Already have an account? <a href="{% url 'login' %}">Login here</a></p>
     </section>
   </main>

@@ -55,6 +55,13 @@
     <!-- Main Content -->
     <main class="checkout-main">
       <h2>Shipping Address</h2>
+      {% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
 
       <form method="POST" id="address-form" class="address-form">
         {% csrf_token %}
@@ -96,8 +103,35 @@
       </form>
     </main>
   </div>
-
-  <script src="{% static 'checkout.js' %}"></script>
   <script src="{% static 'script.js' %}"></script>
+  <script>
+document.addEventListener('DOMContentLoaded', function () {
+    const pincodeInput = document.querySelector('input[name="pincode"]');
+    const cityInput = document.querySelector('input[name="city"]');
+    const stateInput = document.querySelector('input[name="state"]');
+
+    if (!pincodeInput) return;
+
+    pincodeInput.addEventListener('blur', function () {
+        const pincode = pincodeInput.value.trim();
+        if (pincode.length !== 6 || isNaN(pincode)) return;
+
+        fetch(`/pincode-lookup/?pincode=${pincode}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    if (cityInput) cityInput.value = data.city;
+                    if (stateInput) stateInput.value = data.state;
+                }
+                // Silently do nothing on failure — user can still type manually
+            })
+            .catch(() => {
+                // Network error — fail silently, don't block the user
+            });
+    });
+});
+</script>
 </body>
 </html>
+
+

@@ -78,7 +78,11 @@
             </div>
         </div>
     </section>
-
+<form method="POST" action="/relist/6a71a78fcb26e5e07956d9c6/">
+    {% csrf_token %}
+    <input type="number" name="new_price" placeholder="New price" required>
+    <button type="submit">Relist for Resale</button>
+</form>
     <!-- Discount Banner -->
     <section class="discount-banner">
         <div class="container">

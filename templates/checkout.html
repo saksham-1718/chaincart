@@ -1,0 +1,135 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Payment - ChainCart</title>
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+  <header>
+    <div class="container header-content">
+      <a href="{% url 'home' %}" class="logo">ChainCart</a>
+    </div>
+  </header>
+
+  <div class="container checkout two-column">
+    <!-- Sidebar Steps -->
+    <aside class="checkout-steps">
+      <ol>
+        <li class="step-item">
+          <a href="{% url 'order-summary' %}">
+            <span class="step-num">1</span>
+            <div class="step-title">Order Summary</div>
+          </a>
+        </li>
+        <li class="step-item">
+          <a href="{% url 'address' %}">
+            <span class="step-num">2</span>
+            <div class="step-title">Shipping Address</div>
+          </a>
+        </li>
+        <li class="step-item">
+          <a href="{% url 'review' %}">
+            <span class="step-num">3</span>
+            <div class="step-title">Review & Place</div>
+          </a>
+        </li>
+        <li class="step-item active">
+          <span>
+            <span class="step-num">4</span>
+            <div class="step-title">Payment</div>
+          </span>
+        </li>
+        <li class="step-item">
+          <span>
+            <span class="step-num">5</span>
+            <div class="step-title">Confirmation</div>
+          </span>
+        </li>
+      </ol>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="checkout-main">
+      <h2>Complete Your Payment</h2>
+
+      <section class="review-section">
+        <h3>Order Summary</h3>
+        <table class="review-table">
+          <tr>
+            <th>Image</th>
+            <th>Title</th>
+            <th>Artist</th>
+            <th>Price</th>
+          </tr>
+          <tr>
+            <td>
+              {% if painting.image_id %}
+                <img src="/media/mongo_image/{{ painting.image_id }}/" width="80" alt="{{ painting.p_title }}">
+              {% else %}
+                <span>No image</span>
+              {% endif %}
+            </td>
+            <td>{{ painting.p_title }}</td>
+            <td>{{ painting.p_artist }}</td>
+            <td>₹{{ painting.p_price }}</td>
+          </tr>
+        </table>
+      </section>
+
+      <section class="summary-totals">
+        <div class="summary-total"><strong>Amount Payable</strong><strong>₹{{ painting.p_price }}</strong></div>
+      </section>
+
+      <section class="review-section">
+        <h3>Payment</h3>
+        <p class="muted">Secure payment powered by Razorpay. Your purchase will also be recorded on-chain, with a 10% royalty automatically routed to the original artist on any resale.</p>
+
+        <div class="checkout-actions">
+          <a href="{% url 'review' %}" class="btn secondary">Back</a>
+          <button id="pay-btn" class="btn primary">Pay ₹{{ painting.p_price }} Now</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script>
+    document.getElementById('pay-btn').onclick = function () {
+      var options = {
+        "key": "{{ razorpay_key_id }}",
+        "amount": "{{ amount }}",
+        "currency": "INR",
+        "order_id": "{{ order_id }}",
+        "name": "ChainCart",
+        "description": "{{ painting.p_title }}",
+        "handler": function (response) {
+          fetch("/purchase/{{ painting_id }}/", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "X-CSRFToken": "{{ csrf_token }}"
+            },
+            body: JSON.stringify({
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_signature: response.razorpay_signature
+            })
+          }).then(res => res.json()).then(data => {
+            if (data.success) {
+              window.location.href = "/confirmation/";
+            } else {
+              alert("Payment succeeded but purchase failed: " + data.error);
+            }
+          });
+        },
+        "theme": { "color": "#8B4513" }
+      };
+      var rzp = new Razorpay(options);
+      rzp.open();
+    };
+  </script>
+</body>
+</html>

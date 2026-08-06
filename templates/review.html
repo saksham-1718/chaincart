@@ -115,14 +115,13 @@
       <!-- Actions -->
       <div class="checkout-actions">
         <a href="{% url 'address' %}" class="btn secondary">Edit Address</a>
-        {% if cart_data %}
-          <a href="{% url 'payment-mode' %}" class="btn primary">Proceed to Payment</a>
+        {% if cart_data and painting_id %}
+            <a href="{% url 'checkout' painting_id %}" class="btn primary">Proceed to Payment</a>
         {% endif %}
       </div>
     </main>
   </div>
 
-  <script src="{% static 'checkout.js' %}"></script>
   <script src="{% static 'script.js' %}"></script>
 </body>
 </html>

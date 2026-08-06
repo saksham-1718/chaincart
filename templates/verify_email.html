@@ -1,0 +1,34 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Verify Email - ChainCart</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <main class="container" style="padding: 40px 0; max-width: 400px;">
+        <h1>Verify your email</h1>
+        <p>We sent a 6-digit code to <strong>{{ email }}</strong>.</p>
+
+        {% if messages %}
+          <ul class="messages">
+            {% for message in messages %}
+              <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+            <input type="text" name="otp" maxlength="6" placeholder="Enter 6-digit code" required>
+            <button type="submit" class="btn">Verify</button>
+        </form>
+
+        <form method="POST" action="{% url 'resend-otp' %}" style="margin-top: 10px;">
+            {% csrf_token %}
+            <button type="submit" class="btn secondary">Resend Code</button>
+        </form>
+    </main>
+</body>
+</html>

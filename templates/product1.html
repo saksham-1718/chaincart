@@ -48,7 +48,7 @@
         </div>
         <h2>{{ painting.p_price }}</h2>
 
-        <button id="sign-in-btn" class="btn">BUY</button>
+        <a href="{% url 'buy-now' painting.id %}" class="btn" id="buy-now-btn">BUY</a>
         <a href="{% url 'add-to-cart' painting.id %}" class="btn secondary">ADD TO CART</a>
         <h4>Product Details</h4>
         <span>{{ painting.p_desc }}</span>

@@ -22,4 +22,12 @@ urlpatterns = [
     path('confirmation/', views.confirmation, name='confirmation'),
     path('listing/', views.listing, name='listing'),
     path('media/mongo_image/<str:image_id>/', views.mongo_image, name='mongo_image'),
+    path('verify/<str:id>/', views.verify_artwork, name='verify-artwork'),
+    path('checkout/<str:painting_id>/', views.checkout, name='checkout'),
+    path('purchase/<str:painting_id>/', views.purchase, name='purchase'),
+    path('relist/<str:painting_id>/', views.relist, name='relist'),
+    path('buy-now/<str:painting_id>/', views.buy_now, name='buy-now'),
+    path('pincode-lookup/', views.pincode_lookup, name='pincode-lookup'),
+    path('verify-email/', views.verify_email, name='verify-email'),
+    path('resend-otp/', views.resend_otp, name='resend-otp'),
 ]
